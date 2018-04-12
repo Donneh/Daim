@@ -48,6 +48,7 @@ public class Application {
   		server.registerHandler("/presentie/vakken", presentieController);
   		server.registerHandler("/presentie/klassen", presentieController);
 		server.registerHandler("/presentie/presentie", presentieController);
+		server.registerHandler("/presentie/downloaden", presentieController);
 
 		// Klassenrooster.
 		server.registerHandler("/klassenrooster/klassen", klassenRoosterController);

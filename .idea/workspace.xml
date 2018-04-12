@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0cbb3e58-5f42-4811-8dbd-5a3fb618aac7" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/json_20180130.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/lib/json-20180130.jar" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/V1GP-startapplicatie.iml" afterPath="$PROJECT_DIR$/V1GP-startapplicatie.iml" />
-      <change beforePath="$PROJECT_DIR$/src/controller/PresentieController.java" afterPath="$PROJECT_DIR$/src/controller/PresentieController.java" />
+      <change beforePath="$PROJECT_DIR$/bin/controller/Application.class" afterPath="$PROJECT_DIR$/bin/controller/Application.class" />
+      <change beforePath="$PROJECT_DIR$/bin/controller/PresentieController.class" afterPath="$PROJECT_DIR$/bin/controller/PresentieController.class" />
+      <change beforePath="$PROJECT_DIR$/src/controller/Application.java" afterPath="$PROJECT_DIR$/src/controller/Application.java" />
+      <change beforePath="$PROJECT_DIR$/webapp/app/src/my-absentmelden/my-absentmelden.html" afterPath="$PROJECT_DIR$/webapp/app/src/my-absentmelden/my-absentmelden.html" />
       <change beforePath="$PROJECT_DIR$/webapp/app/src/my-app/elements.html" afterPath="$PROJECT_DIR$/webapp/app/src/my-app/elements.html" />
-      <change beforePath="$PROJECT_DIR$/webapp/app/src/my-app/my-app.html" afterPath="$PROJECT_DIR$/webapp/app/src/my-app/my-app.html" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,21 +38,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="elements.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-app/elements.html">
+      <file leaf-file-name="my-presentie-aanpassen.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentie-aanpassen.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="854">
-              <caret line="48" column="62" lean-forward="false" selection-start-line="48" selection-start-column="62" selection-end-line="48" selection-end-column="62" />
+            <state relative-caret-position="-2975">
+              <caret line="129" column="58" lean-forward="false" selection-start-line="129" selection-start-column="58" selection-end-line="129" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="my-app.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="my-presentie-invoeren.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentie-invoeren.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3792">
+              <caret line="206" column="29" lean-forward="false" selection-start-line="206" selection-start-column="28" selection-end-line="206" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="my-app.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webapp/app/src/my-app/my-app.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="200" column="14" lean-forward="false" selection-start-line="200" selection-start-column="14" selection-end-line="200" selection-end-column="14" />
+            <state relative-caret-position="709">
+              <caret line="533" column="32" lean-forward="true" selection-start-line="533" selection-start-column="32" selection-end-line="533" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PresentieController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/controller/PresentieController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="43" column="86" lean-forward="false" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="my-absentmelden.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-absentmelden/my-absentmelden.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-155">
+              <caret line="66" column="12" lean-forward="true" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -130,21 +158,22 @@
         <option value="$PROJECT_DIR$/src/model/vak/Vak.java" />
         <option value="$PROJECT_DIR$/src/model/klas/Klas.java" />
         <option value="$PROJECT_DIR$/src/model/persoon/Student.java" />
-        <option value="$PROJECT_DIR$/src/controller/Application.java" />
         <option value="$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentie.html" />
         <option value="$PROJECT_DIR$/src/model/PrIS.java" />
         <option value="$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentie-bekijken.html" />
         <option value="$PROJECT_DIR$/src/model/presentie/PresentieMogelijkheden.java" />
         <option value="$PROJECT_DIR$/webapp/app/src/my-login/my-login.html" />
-        <option value="$PROJECT_DIR$/webapp/app/src/my-absentmelden/my-absentmelden.html" />
         <option value="$PROJECT_DIR$/src/model/presentie/Presentie.java" />
         <option value="$USER_HOME$/Downloads/my-presentielijst-bekijken.html" />
         <option value="$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentie-aanpassen.html" />
         <option value="$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentie-invoeren.html" />
-        <option value="$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentielijst-bekijken.html" />
         <option value="$PROJECT_DIR$/src/controller/PresentieController.java" />
-        <option value="$PROJECT_DIR$/webapp/app/src/my-app/elements.html" />
         <option value="$PROJECT_DIR$/webapp/app/src/my-app/my-app.html" />
+        <option value="$PROJECT_DIR$/src/controller/Application.java" />
+        <option value="$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentielijst-bekijken.html" />
+        <option value="$PROJECT_DIR$/webapp/app/src/my-downloaden/my-downloaden.html" />
+        <option value="$PROJECT_DIR$/webapp/app/src/my-app/elements.html" />
+        <option value="$PROJECT_DIR$/webapp/app/src/my-absentmelden/my-absentmelden.html" />
       </list>
     </option>
   </component>
@@ -166,10 +195,11 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1908" />
-    <option name="width" value="1944" />
-    <option name="height" value="2172" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1596" />
+    <option name="y" value="229" />
+    <option name="width" value="1193" />
+    <option name="height" value="1001" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -243,6 +273,14 @@
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="my-absentmelden" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="V1GP-startapplicatie" type="b2602c69:ProjectViewProjectNode" />
+              <item name="presentieCacheTesten" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="my-app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -292,7 +330,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JAR Application.json-20180130.jar">
+  <component name="RunManager" selected="Application.Application">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -448,16 +486,15 @@
       <workItem from="1523439947685" duration="17605000" />
       <workItem from="1523471720088" duration="1901000" />
       <workItem from="1523517992825" duration="3735000" />
-      <workItem from="1523530970604" duration="2585000" />
+      <workItem from="1523530970604" duration="6135000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="185556000" />
+    <option name="totallyTimeSpent" value="189106000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1908" y="0" width="1944" height="2172" extended-state="0" />
-    <editor active="true" />
+    <frame x="-14" y="-14" width="3868" height="2188" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -467,12 +504,12 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3091398" sideWeight="0.502551" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30411828" sideWeight="0.49744898" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30366492" sideWeight="0.49744898" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32893348" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30114824" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15026042" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32873562" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24912034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24942529" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -537,7 +574,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/sun/nio/ch/ServerSocketChannelImpl.java" />
     <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/lang/Object.java" />
     <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/ArrayList.java" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/PrIS.java" />
@@ -842,14 +878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="768">
-          <caret line="19" column="7" lean-forward="false" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webapp/app/manifest.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -885,58 +913,74 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Downloads/my-presentielijst-bekijken.html" />
+    <entry file="file://$PROJECT_DIR$/src/controller/Application.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="672">
+          <caret line="50" column="77" lean-forward="false" selection-start-line="50" selection-start-column="77" selection-end-line="50" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentie-aanpassen.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="139" column="19" lean-forward="false" selection-start-line="139" selection-start-column="19" selection-end-line="139" selection-end-column="19" />
+        <state relative-caret-position="-2975">
+          <caret line="129" column="58" lean-forward="false" selection-start-line="129" selection-start-column="58" selection-end-line="129" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentie-invoeren.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2784">
-          <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentielijst-bekijken.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="213" column="41" lean-forward="false" selection-start-line="213" selection-start-column="41" selection-end-line="213" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-absentmelden/my-absentmelden.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="20" column="17" lean-forward="false" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/PresentieController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1433">
-          <caret line="71" column="34" lean-forward="true" selection-start-line="71" selection-start-column="34" selection-end-line="71" selection-end-column="34" />
+        <state relative-caret-position="3792">
+          <caret line="206" column="29" lean-forward="false" selection-start-line="206" selection-start-column="28" selection-end-line="206" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/webapp/app/src/my-app/elements.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="854">
-          <caret line="48" column="62" lean-forward="false" selection-start-line="48" selection-start-column="62" selection-end-line="48" selection-end-column="62" />
+        <state relative-caret-position="949">
+          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-downloaden/my-downloaden.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="617">
+          <caret line="216" column="67" lean-forward="false" selection-start-line="216" selection-start-column="67" selection-end-line="216" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/PresentieController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="43" column="86" lean-forward="false" selection-start-line="43" selection-start-column="86" selection-end-line="43" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-presentie/my-presentielijst-bekijken.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="220" column="19" lean-forward="true" selection-start-line="220" selection-start-column="19" selection-end-line="220" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/webapp/app/src/my-app/my-app.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="200" column="14" lean-forward="false" selection-start-line="200" selection-start-column="14" selection-end-line="200" selection-end-column="14" />
+        <state relative-caret-position="709">
+          <caret line="533" column="32" lean-forward="true" selection-start-line="533" selection-start-column="32" selection-end-line="533" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-absentmelden/my-absentmelden.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-155">
+          <caret line="66" column="12" lean-forward="true" selection-start-line="66" selection-start-column="12" selection-end-line="66" selection-end-column="12" />
           <folding />
         </state>
       </provider>

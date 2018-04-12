@@ -12,26 +12,82 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="my-absentmelden">
     <template>
+    	<style>
+    		:host {
+                padding: 10px 20px;
+                height: 480px;
+            }
+    		
+    		.item-input::after { 
+    			border-bottom-color: transparent !important; 
+    		}
+    		#reden {
+    			background: white;
+    			width: 35%;
+    			border: 2px solid #bdbdbd;
+    		}
+    		
+    		#opslaan {
+    			background-color: #bdbdbd; 
+    			text-transform: none;
+    		}
+    	</style>
         <h2>Absent Melden</h2>
-        <span>Aangemeld als: {{_user.username}}</span>
-
-        <paper-button on-click="_absentMelden">Ziek melden</paper-button>
+        <span>Ingemeld als: {{_user.username}}</span>
+        <p></p>
+        <paper-checkbox id="ziek" on-click="ziekMeld" checked={{isZiek}}>ziek melden </paper-checkbox><p></p>
+        <input type="date" id="afmeldDatum">
+        <p></p>
+        <paper-textarea id="reden" placeholder=" " autocomplete="on" autocapitalize="false" label="Geef een reden"></paper-textarea><p></p>
+        <paper-button id="opslaan" on-click="opslaanclick">Opslaan</paper-button>
     </template>
     <script>
         Polymer({
             is: 'my-absentmelden',
             properties: {
-                _user: {
-                    type: Object
-                }
+            	isZiek: {
+            		type: Boolean,
+            		value: false
+            	}
             },
-
-            setUser(user) {
-                this.set('_user', user);
+            
+            ziekMeld() {
+            	var date = new Date();
+            	var day = date.getDate();
+            	console.log(date);
+           	 	
+           	 	let isZiek = this.get('isZiek');
+           	 	if(isZiek) {
+           	 		this.$.afmeldDatum.disabled = true;
+           	 	}
+           	 	else {
+           	 		this.$.afmeldDatum.disabled = false;
+           	 	}
             },
-
-            _absentMelden(e) {
-
+          	
+            opslaanclick() {
+            	let ziekElement = this.$.ziek;
+            	let isZiek = ziekElement.checked;
+            	
+            	let redenElement = this.$.reden;
+            	console.log(redenElement.value);
+            	
+            	let datumElement = this.$.afmeldDatum;
+            	afmeldDatum = datumElement.value;
+            	
+            	console.log("datum: " + afmeldDatum);
+            	if(isZiek == true) {
+            		console.log("ziekgemeld gelukt");
+            	} else {
+            		if(redenElement.value != null && afmeldDatum != null) {
+            			redenElement.required = false;
+            			console.log("afmelden gelukt");
+            		}
+            		else {
+            			console.log("kies een datum en voer de reden in!")
+            		}
+            	}
+            	
             }
         });
     </script>
