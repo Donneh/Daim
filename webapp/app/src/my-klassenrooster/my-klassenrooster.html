@@ -1,0 +1,351 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="my-klassenrooster">
+    <template>
+        <style>
+            :host {
+                display: block;
+
+                padding: 10px 20px 40px 20px;
+            }
+
+            .blue {
+                color: white;
+                background-color: #1a9fd9;
+            }
+
+            table {
+                width: 100%;
+                margin: 16px 0px;
+                table-layout: fixed;
+                border-collapse: collapse;
+            }
+
+            td {
+                width: calc(100% / 7);
+            }
+
+            .cell {
+                min-height: 128px;
+            }
+
+            .cell div {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #volgendeWeek {
+                float: right;
+            }
+
+            #vorigeWeek {
+                float: left;
+            }
+        </style>
+        <h1>Klassenrooster</h1>
+
+        <paper-dropdown-menu label="Klassen" on-iron-select="_klasGeselecteerd">
+            <paper-listbox slot="dropdown-content" selected="1">
+                <template is="dom-repeat" items="{{klassen}}" as="klas">
+                    <paper-item>
+                        [[klas.klasCode]]
+                    </paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
+
+        <paper-button raised class="blue" on-click="_roosterOphalen">Zoeken</paper-button>
+
+        <div hidden="{{tabelHidden}}">
+            <table border="1px solid black">
+                <thead>
+                    <tr class="{{vasteHeaderDatums}}">
+                        <template is="dom-repeat" items="{{huidigeHeaderDatums}}">
+                            <th>{{item}}</th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <template is="dom-repeat" items="{{ochtendLessen}}">
+                            <td>
+                                <div class="cell">
+                                    <template is="dom-if" if="{{item.vakCode}}">
+                                        <div>{{item.vakCode}}</div>
+                                        <div>{{item.van}} - {{item.tot}}</div>
+                                        <div>{{item.klasLokaal}}</div>
+                                        <div>Groep(en):</div>
+                                        <div>{{item.klasCode}}</div>
+                                        <div>{{item.leraarEmail}}</div>
+                                    </template>
+                                </div>
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <template is="dom-repeat" items="{{middagLessen}}">
+                            <td>
+                                <div class="cell">
+                                    <template is="dom-if" if="{{item.vakCode}}">
+                                        <div>{{item.vakCode}}</div>
+                                        <div>{{item.van}} - {{item.tot}}</div>
+                                        <div>{{item.klasLokaal}}</div>
+                                        <div>Groep(en):</div>
+                                        <div>{{item.klasCode}}</div>
+                                        <div>{{item.leraarEmail}}</div>
+                                    </template>
+                                </div>
+                            </td>
+                        </template>
+                    </tr>
+                </tbody>
+            </table>
+
+            <paper-button id="vorigeWeek" raised hidden="{{vorigeHidden}}" on-click="_vorigeWeek">Vorige</paper-button>
+            <paper-button id="volgendeWeek" raised hidden="{{volgendeHidden}}" raised on-click="_volgendeWeek">Volgende</paper-button>
+        </div>
+
+        <!-- Ajax call om de dropdown te populeren. -->
+        <iron-ajax
+            id="ajax_klassen_ophalen"
+            method="GET"
+            url="/klassenrooster/klassen"
+            handle-as="text"
+            on-response="_klassenrooster_ophalen_klassen_handler">
+        </iron-ajax>
+
+        <!-- Ajax call om rooster te populeren. -->
+        <iron-ajax
+            id="ajax_rooster_ophalen"
+            method="POST"
+            url="/klassenrooster/rooster"
+            handle-as="text"
+            on-response="_klassenrooster_ophalen_rooster_handler">
+        </iron-ajax>
+    </template>
+    <script>
+        Polymer({
+            is: 'my-klassenrooster',
+            properties: {
+                geselecteerdeKlas: {
+                    type: String,
+                    value: ""
+                },
+                tabelHidden: {
+                    type: Boolean,
+                    value: true
+                },
+
+                // -- Tabel inhoud en paginatie.
+                vasteHeaderDatums: {
+                    type: Array,
+                    value: [
+                        ["2018-02-05", "2018-02-06", "2018-02-07", "2018-02-08", "2018-02-09", "2018-02-10", "2018-02-11"],
+                        ["2018-02-12", "2018-02-13", "2018-02-14", "2018-02-15", "2018-02-16", "2018-02-17", "2018-02-18"],
+                        ["2018-02-19", "2018-02-20", "2018-02-21", "2018-02-22", "2018-02-23", "2018-02-24", "2018-02-25"],
+                        ["2018-02-26", "2018-02-27", "2018-02-28", "2018-03-01", "2018-03-02", "2018-03-03", "2018-03-04"],
+                        ["2018-03-05", "2018-03-06", "2018-03-07", "2018-03-08", "2018-03-09", "2018-03-10", "2018-03-11"],
+                        ["2018-03-12", "2018-03-13", "2018-03-14", "2018-03-15", "2018-03-16", "2018-03-17", "2018-03-18"],
+                        ["2018-03-19", "2018-03-20", "2018-03-21", "2018-03-22", "2018-03-23", "2018-03-24", "2018-03-25"],
+                        ["2018-03-26", "2018-03-27", "2018-03-28", "2018-03-29", "2018-03-30", "2018-03-31", "2018-04-01"],
+                        ["2018-04-02", "2018-04-03", "2018-04-04", "2018-04-05", "2018-04-06", "2018-04-07", "2018-04-08"],
+                        ["2018-04-09", "2018-04-10", "2018-04-11", "2018-04-12", "2018-04-13", "2018-04-14", "2018-04-15"]
+                    ]
+                },
+                huidigeHeaderDatums: {
+                    type: Array,
+                    value: []
+                },
+                tabelPageIndex: {
+                    type: Number,
+                    value: 0
+                },
+                vorigeHidden: {
+                    type: Boolean,
+                    value: true,
+                },
+                volgendeHidden: {
+                    type: Boolean,
+                    value: false
+                },
+                // --
+
+                klassen: {
+                    type: Array,
+                    value: []
+                },
+                lessen: {
+                    type: Array,
+                    value: []
+                },
+
+                // -- Opvulling rooster
+                ochtendLessen: {
+                    type: Array,
+                    value: [{}, {}, {}, {}, {}, {}, {}]
+                },
+                middagLessen: {
+                    type: Array,
+                    value: [{}, {}, {}, {}, {}, {}, {}]
+                }
+                // --
+            },
+
+            ready() {
+                let request = this.$.ajax_klassen_ophalen.generateRequest();
+
+                // Succes/Foutmelding bericht.
+                request.completes.then((request) => {
+                    console.log("Klassen ophalen gelukt.");
+                }, (rejected) => {
+                    console.error("Klassen ophalen mislukt.");
+                });
+            },
+
+            _klassenrooster_ophalen_klassen_handler(request) {
+                let _klassen = JSON.parse(request.detail.response);
+                console.log('_klassenrooster_ophalen_klassen_handler aantal klassen=' + _klassen.length);
+                this.klassen = _klassen;
+            },
+
+            _klassenrooster_ophalen_rooster_handler(request) {
+                let _lessen = JSON.parse(request.detail.response);
+                console.log('_klassenrooster_ophalen_rooster_handler aantal lessen=' + _lessen.length);
+                this.lessen = _lessen;
+
+                this.set('huidigeHeaderDatums', this.get(['vasteHeaderDatums', this.tabelPageIndex]));
+            },
+
+            _klasGeselecteerd(event) {
+                this.geselecteerdeKlas = event.target.selectedItem.innerText.trim();
+                console.log("Klas geselecteerd: " + this.geselecteerdeKlas);
+            },
+
+            _roosterOphalen(event) {
+                if (this.geselecteerdeKlas !== "") {
+                    // Stuur rooster request met geselecteerde klascode.
+                    this.$.ajax_rooster_ophalen.contentType = "application/json";
+                    this.$.ajax_rooster_ophalen.body = {
+                        "klasCode": this.geselecteerdeKlas
+                    }
+                    let request = this.$.ajax_rooster_ophalen.generateRequest();
+
+                    // Succes/Foutmelding bericht.
+                    request.completes.then((request) => {
+                        console.log("Rooster ophalen gelukt.");
+
+                        // Start bij systeemdatum of page 1.
+                        let lApp = document.querySelector('my-app');
+                        let standaardDatums = this.get('vasteHeaderDatums');
+                        let pageIndexGevonden = false;
+                        for(let i = 0, l = standaardDatums.length; i < l; i++) {
+                            if (standaardDatums[i].indexOf(lApp._systeemdatumstandaard) > 0) {
+                                this.set('tabelPageIndex', i);
+                                if(i > 0) {
+                                    this.set('vorigeHidden', false);
+                                }
+                                if(i !== standaardDatums.length) {
+                                    this.set('volgendeHidden', false);
+                                }
+                                pageIndexGevonden = true;
+                            }
+                        }
+
+                        if (!pageIndexGevonden) {
+                            this.set('tabelPageIndex', 0);
+                            this.set('vorigeHidden', true);
+                        }
+
+                        this.set('huidigeHeaderDatums', this.get(['vasteHeaderDatums', this.tabelPageIndex]));
+                        this._updateHuidigeLessen();
+
+                        this.tabelHidden = false;
+                    }, (rejected) => {
+                        console.error("Rooster ophalen mislukt.");
+                    });
+                } else {
+                    console.error("Er is geen klas geselecteerd.");
+                }
+            },
+
+            _vorigeWeek() {
+                if (this.tabelPageIndex !== 0) {
+                    this.set('tabelPageIndex', this.tabelPageIndex - 1);
+                    this.set('huidigeHeaderDatums', this.get(['vasteHeaderDatums', this.tabelPageIndex]));
+
+                    if (this.tabelPageIndex == 0) {
+                        this.set('vorigeHidden', true);
+                    }
+
+                    if (this.tabelPageIndex + 1 !== this.vasteHeaderDatums.length) {
+                        this.set('volgendeHidden', false);
+                    }
+
+                    this._updateHuidigeLessen();
+                }
+            },
+
+            _volgendeWeek() {
+                if (this.tabelPageIndex + 1 !== this.vasteHeaderDatums.length) {
+                    this.set('tabelPageIndex', this.tabelPageIndex + 1);
+                    this.set('huidigeHeaderDatums', this.get(['vasteHeaderDatums', this.tabelPageIndex]));
+
+                    if(this.tabelPageIndex !== 0) {
+                        this.set('vorigeHidden', false)
+                    }
+
+                    if(this.tabelPageIndex + 1 == this.vasteHeaderDatums.length) {
+                        this.set('volgendeHidden', true);
+                    }
+
+                    this._updateHuidigeLessen();
+                }
+            },
+
+            _updateHuidigeLessen() {
+                let lessen = this.get('lessen');
+                let huidigeDatums = this.get('huidigeHeaderDatums');
+
+                // Refresh.
+                this.set('ochtendLessen', [{}, {}, {}, {}, {}, {}, {}]);
+                this.set('middagLessen', [{}, {}, {}, {}, {}, {}, {}]);
+
+                for(let i = 0, l = huidigeDatums.length; i < l; i++) {
+                    for(let j = 0, k = lessen.length; j < k; j++) {
+                        // Les valt op deze dag.
+                        if (lessen[j].datum == huidigeDatums[i]) {
+                            // Ochtendles.
+                            if (lessen[j].van == "09:00" && lessen[j].tot == "13:00") {
+                                this.set('ochtendLessen.' + i, lessen[j]);
+                            }
+
+                            // Middagles.
+                            if (lessen[j].van == "14:00" && lessen[j].tot == "18:00") {
+                                this.set('middagLessen.' + i, lessen[j]);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>

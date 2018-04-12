@@ -1,0 +1,66 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="my-commentaar">
+    <template>
+        <style>
+            :host {
+                padding: 10px 20px;
+
+                height: 480px;
+            }
+
+        </style>
+        <h1>Commentaar</h1>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Docent</th>
+                <th>Datum</th>
+                <th>Commentaar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <template is="dom-repeat" id="commentaarItemList" items="{{commentaarItems}}">
+                <tr>
+                    <td>[[item.docent]]</td>
+                    <td>{{item.datum}}</td>
+                    <td>[[item.commentaar]]</td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+
+    </template>
+
+    <script>
+        class Commentaar extends Polymer.Element {
+
+            static get is() { return 'my-commentaar' }
+
+            static get properties() {
+                return {
+                    commentaarItems : {
+                        type: Array,
+                        value: [
+                            {docent: 'Ismail', datum: "20-10-1994", commentaar: "Dit is commentaar."},
+                            {docent: 'Yannick', datum: "20-10-1994", commentaar: "Dit is ander commentaar"},
+                        ]
+                    }
+                }
+            }
+        }
+
+        window.customElements.define(Commentaar.is, Commentaar);
+    </script>
+</dom-module>

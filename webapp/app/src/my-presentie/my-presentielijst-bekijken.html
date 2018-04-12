@@ -1,0 +1,360 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../../bower_components/paper-datatable-api/paper-datatable-api-column.html">
+<link rel="import" href="../../bower_components/paper-datatable-api/paper-datatable-api.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+
+<dom-module id="my-presentielijst-bekijken">
+    <template>
+        <style>
+            :host {
+                display: block;
+
+                padding: 10px 20px;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            .ongemeld_absent {
+                background-color: red;
+                color: white;
+                text-align: center;
+            }
+
+            .gemeld_absent {
+                background-color: blue;
+            }
+
+            .ziek {
+                background-color: orange;
+            }
+
+            .aanwezig {
+                color: white;
+                background-color: green;
+                text-align: center;
+            }
+
+            #legenda td {
+                color: black;
+                text-align: center;
+                width: 20px;
+                padding: 4px;
+            }
+
+            #legenda .icoon {
+                color: white !important;
+            }
+
+            #legenda {
+                margin-bottom: 16px;
+            }
+        </style>
+        <h1>Presentielijst Bekijken</h1>
+
+        <div>
+            <h3>Vakken</h3>
+            <ul>
+                <template is="dom-repeat" items="{{vakken}}">
+                    <li><paper-button on-click="_vakGeselecteerd">[[item.vakCode]]</paper-button></li>
+                </template>
+            </ul>
+        </div>
+
+        <div hidden="{{klassenHidden}}">
+            <h3>Klassen</h3>
+            <ul>
+                <template is="dom-repeat" items="{{klassen}}">
+                    <li><paper-button on-click="_klasGeselecteerd">[[item.klasCode]]</paper-button></li>
+                </template>
+            </ul>
+        </div>
+
+        <h2 hidden="{{tabelHidden}}">Presentatie voor vak '{{geselecteerdeVak}}', klas '{{geselecteerdeKlas}}'.</h2>
+
+        <table id="legenda" hidden="{{tabelHidden}}" border="1px solid black">
+            <tr>
+                <td class="aanwezig icoon">&#10004;</td>
+                <td>Present</td>
+                <td class="ongemeld_absent icoon">&#215;</td>
+                <td>Absent</td>
+                <td class="gemeld_absent icoon">&#9742;</td>
+                <td>Gemeld absent</td>
+                <td class="ziek icoon">&#9785;</td>
+                <td>Ziek</td>
+            </tr>
+        </table>
+
+        <table hidden="{{tabelHidden}}" border="1px solid black">
+            <thead>
+                <template is="dom-repeat" items="{{tabelHeadItems}}">
+                    <th>{{item}}</th>
+                </template>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{studenten}}" as="student">
+                    <tr>
+                        <td>{{student.voornaam}}</td>
+                        <td>{{student.achternaam}}</td>
+                        <template is="dom-repeat" items="{{_getCorrecteItems(tabelPresentieItems, index)}}" as="presentieItem">
+                            <td class$="[[presentieItem.present]]">
+                                <template is="dom-if" if="[[_presentieIsAbsent(presentieItem.present)]]">
+                                    &#215;
+                                </template>
+                                <template is="dom-if" if="[[_presentieIsAanwezig(presentieItem.present)]]">
+                                    &#10004;
+                                </template>
+                            </td>
+                        </template>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+
+        <!-- Ajax call om vakken dropdown te populeren. -->
+        <iron-ajax
+            id="ajax_vakken_ophalen"
+            method="GET"
+            url="/presentie/vakken"
+            handle-as="text"
+            on-response="_presentie_ophalen_vakken_handler">
+        </iron-ajax>
+
+        <!-- Ajax call om klassen dropdown te populeren. -->
+        <iron-ajax
+            id="ajax_klassen_ophalen"
+            method="POST"
+            url="/presentie/klassen"
+            handle-as="text"
+            on-response="_presentie_ophalen_klassen_handler">
+        </iron-ajax>
+
+        <!-- Ajax call om presentie tabel te populeren. -->
+        <iron-ajax
+            id="ajax_presentie_ophalen"
+            method="POST"
+            url="/presentie/presentie"
+            handle-as="text"
+            on-response="_presentie_ophalen_presentie_handler">
+        </iron-ajax>
+
+        <app-localstorage-document key="cache" data="{{_cache}}"></app-localstorage-document>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-presentielijst-bekijken',
+            properties: {
+                // Dropdowns.
+                vakken: {
+                    type: Array,
+                    value: []
+                },
+                klassen: {
+                    type: Array,
+                    value: []
+                },
+
+                // Tabel data.
+                presentieItems: {
+                    type: Array,
+                    value: []
+                },
+                tabelHeadItems: {
+                    type: Array,
+                    value: []
+                },
+                tabelPresentieItems: {
+                    type: Array,
+                    value: []
+                },
+                lessen: {
+                    type: Array,
+                },
+                studenten: {
+                    type: Array
+                },
+
+                // Selectie elementen.
+                klassenHidden: {
+                    type: Boolean,
+                    value: true
+                },
+                tabelHidden: {
+                    type: Boolean,
+                    value: true
+                },
+                geselecteerdeVak: {
+                    type: String,
+                    value: ""
+                },
+                geselecteerdeKlas: {
+                    type: String,
+                    value: ""
+                },
+
+                // Calculatie.
+                presentieMogelijkheden: {
+                    type: Array,
+                    value: ['ziek', 'ongemeld_absent', 'aanwezig', 'gemeld_absent']
+                },
+
+                // Cache
+                _cache: {
+                    type: Object
+                }
+            },
+
+            ready() {
+                let request = this.$.ajax_vakken_ophalen.generateRequest();
+
+                // Succes/Foutmelding bericht.
+                request.completes.then((request) => {
+                    console.log("Vakken ophalen gelukt.");
+                }, (rejected) => {
+                    console.error("Vakken ophalen mislukt.");
+                });
+            },
+
+            _presentie_ophalen_vakken_handler(request) {
+                let _vakken = JSON.parse(request.detail.response);
+                console.log('_presentie_ophalen_vakken_handler aantal vakken=' + _vakken.length);
+                this.vakken = _vakken;
+            },
+
+            _presentie_ophalen_klassen_handler(request) {
+                let _klassen = JSON.parse(request.detail.response);
+                console.log('_presentie_ophalen_klassen_handler aantal klassen=' + _klassen.length);
+                this.klassen = _klassen;
+            },
+
+            _presentie_ophalen_presentie_handler(request) {
+                let _presentieItems = JSON.parse(request.detail.response);
+                console.log('presentie_ophalen_presentie_handler aantal lessen items=' + _presentieItems.lessen.length);
+                console.log('presentie_ophalen_presentie_handler aantal studenten items=' + _presentieItems.studenten.length);
+
+                this.set('lessen', _presentieItems.lessen);
+                this.set('studenten', _presentieItems.studenten);
+            },
+
+            _vakGeselecteerd(e) {
+                this.klassenHidden = false;
+                let targetVak = e.target.innerText.trim();
+
+                this.set('geselecteerdeVak', targetVak);
+
+                this.$.ajax_klassen_ophalen.contentType = "application/json";
+                this.$.ajax_klassen_ophalen.body = {
+                    "vakCode": targetVak
+                }
+
+                let request = this.$.ajax_klassen_ophalen.generateRequest();
+
+                // Succes/Foutmelding bericht.
+                request.completes.then((request) => {
+                    console.log("Klassen ophalen gelukt.");
+                }, (rejected) => {
+                    console.error("Klassen ophalen mislukt.");
+                });
+            },
+
+            _klasGeselecteerd(e) {
+                let targetKlas = e.target.innerText.trim();
+
+                this.set('geselecteerdeKlas', targetKlas);
+
+                this.$.ajax_presentie_ophalen.contentType = "application/json";
+                this.$.ajax_presentie_ophalen.body = {
+                    "klasCode": targetKlas
+                }
+                let request = this.$.ajax_presentie_ophalen.generateRequest();
+
+                // Succes/Foutmelding bericht.
+                request.completes.then((request) => {
+                    let _lessen = this.get('lessen');
+                    let _lApp = document.querySelector('my-app');
+
+                    let _presentieItems = [];
+                    let _tabelHeadItems = ['Voornaam', 'Achternaam'];
+
+                    let _studenten = this.get('studenten');
+
+                    if (typeof localStorage.cache !== "undefined" && localStorage.cache !== "undefined") {
+                        let _gelesecteerdeVak = this.get('geselecteerdeVak');
+                        let _geselecteerdeKlas = this.get('geselecteerdeKlas');
+
+                        let _tempStudenten = JSON.parse(localStorage.cache);
+
+                        if (_tempStudenten[_gelesecteerdeVak][_geselecteerdeKlas].length > 0) {
+                            _studenten = _tempStudenten[_gelesecteerdeVak][_geselecteerdeKlas];
+                        }
+                    }
+
+                    for(let i = 0, l = this.get('lessen').length; i < l; i++) {
+                        let _lesDatum = new Date(_lessen[i].datum);
+                        let _systeemDatum = new Date(_lApp._systeemdatumstandaard);
+
+                        if (_lesDatum <= _systeemDatum) {
+                            _tabelHeadItems.push('Les ' + (i + 1));
+                        }
+
+                        for (let j = 0, k = _studenten.length; j < k; j++) {
+                            let _student = _studenten[j];
+                            let _objectKey = _student.voornaam + _student.achternaam;
+
+                            if (typeof _presentieItems[j] === "undefined") {
+                                _presentieItems[j] = [];
+                            }
+
+                            if(_lesDatum <= _systeemDatum) {
+                                let _presentieItem = _studenten[j].presentieItems[i];
+                                _presentieItems[j].push(_presentieItem);
+                            }
+                        }
+
+                    }
+
+                    this.set('tabelHeadItems', _tabelHeadItems);
+                    this.set('tabelPresentieItems', _presentieItems);
+
+                    this.set('tabelHidden', false);
+                }, (rejected) => {
+
+
+                    console.error("Presentie ophalen mislukt.");
+                });
+            },
+
+            _getCorrecteItems(lijst, index) {
+                console.log("!");
+
+                return lijst[index];
+            },
+
+            _presentieIsAbsent(presentie) {
+                return presentie === "ongemeld_absent"
+            },
+
+            _presentieIsAanwezig(presentie) {
+                return presentie === "aanwezig"
+            }
+        });
+    </script>
+</dom-module>
