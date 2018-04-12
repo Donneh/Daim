@@ -195,6 +195,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Toon medestudenten</span>
           </a>
 
+          <a href="downloaden" href$="[[_c_baseURL]]downloaden" verborgen$="[[_are_strings_equal(_rol, 'undefined')]]">
+            <iron-icon icon="social:group"></iron-icon>
+            <span>Downloaden</span>
+          </a>
+
         </iron-selector>
       </app-drawer>
 
@@ -333,6 +338,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </my-medestudenten>
             </paper-material>
           </section>
+
+        <section page-name="downloaden"
+                 title="Downloaden"
+                 element$="my-downloaden">
+          <paper-material elevation="1">
+            <my-downloaden></my-downloaden>
+          </paper-material>
+        </section>
 
           <section page-name="student_details" title="STUDENT DETAILS">
             <paper-material elevation="1">

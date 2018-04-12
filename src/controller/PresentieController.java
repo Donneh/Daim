@@ -6,10 +6,15 @@ import model.les.Les;
 import model.persoon.Student;
 import model.presentie.Presentie;
 import model.vak.Vak;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import server.Conversation;
 import server.Handler;
 
 import javax.json.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +26,8 @@ public class PresentieController implements Handler {
     private String geselecteerdeVakCode;
 
     private String geselecteerdeKlasCode;
+
+    private String studenten;
 
     public PresentieController(PrIS infoSys) {
         informatieSysteem = infoSys;
@@ -34,6 +41,40 @@ public class PresentieController implements Handler {
             klassenDropdownOphalen(conversation);
         } else if(conversation.getRequestedURI().startsWith("/presentie/presentie")) {
             presentieOphalen(conversation);
+        } else if(conversation.getRequestedURI().startsWith("/presentie/downloaden")) {
+            createCSV();
+        }
+    }
+
+    public void createCSV() {
+        try {
+            JSONObject jsonobj = new JSONObject(this.studenten);
+            JSONArray studenten = jsonobj.getJSONArray("studenten");
+            File file = new File("webapp/app/presentie.csv");
+            file.createNewFile();
+            FileWriter fw = new FileWriter(file);
+            StringBuilder header = new StringBuilder("Student,");
+            for(int i = 0; i < studenten.getJSONObject(0).getJSONArray("presentieItems").length(); i++) {
+                header.append("Les ").append(i).append(",");
+            }
+            header.append("\n");
+            fw.write(header.toString());
+            for (int i = 0; i < studenten.length(); i++) {
+                JSONObject student = studenten.getJSONObject(i);
+                StringBuilder line = new StringBuilder();
+                line.append(student.get("voornaam") + " " + student.get("achternaam"));
+                line.append(",");
+                for (Object presentieItem : student.getJSONArray("presentieItems")) {
+                    JSONObject item = (JSONObject) presentieItem;
+                    line.append(item.get("present"));
+                    line.append(",");
+                }
+                line.append("\n");
+                fw.write(line.toString());
+            }
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -120,6 +161,7 @@ public class PresentieController implements Handler {
         _JsonObjectBuilder.add("studenten", _JsonArrayBuilderVoorStudenten);
 
         String JsonOutStr = _JsonObjectBuilder.build().toString();
+        this.studenten = JsonOutStr;
         conversation.sendJSONMessage(JsonOutStr);
     }
 
